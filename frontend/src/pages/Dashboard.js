@@ -1,18 +1,28 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { AuthContext } from '../context/AuthContext';
 import { formatDate, getStatusBadgeClass, getPriorityBadgeClass } from '../utils/helpers';
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({});
 
   useEffect(() => {
-    fetchTickets();
-  }, []);
+    // Redirect based on role
+    if (user?.role === 'admin') {
+      navigate('/admin');
+    } else if (user?.role === 'manager') {
+      navigate('/manager');
+    } else if (user?.role === 'superadmin') {
+      navigate('/superadmin');
+    } else {
+      fetchTickets();
+    }
+  }, [user, navigate]);
 
   const fetchTickets = async () => {
     try {
@@ -34,7 +44,12 @@ const Dashboard = () => {
     }
   };
 
-  if (loading) {
+  // Redirect based on role
+  if (user?.role === 'admin' || user?.role === 'manager' || user?.role === 'superadmin') {
+    return null; // Navigation will handle the redirect
+  }
+
+  if (loading && user?.role === 'user') {
     return <div className="container main-content">Loading...</div>;
   }
 

@@ -45,6 +45,18 @@ const Navbar = () => {
               </Link>
             </>
           )}
+          {user.role === 'manager' && (
+            <Link to="/manager" className="navbar-link">
+              Manager Dashboard
+            </Link>
+          )}
+          {user.role === 'superadmin' && (
+            <>
+              <Link to="/superadmin" className="navbar-link">
+                SuperAdmin Control
+              </Link>
+            </>
+          )}
           <NotificationCenter />
           <div className="navbar-user">
             <span className="navbar-user-name">{user.name}</span>

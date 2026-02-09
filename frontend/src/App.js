@@ -9,6 +9,8 @@ import Tickets from './pages/Tickets';
 import TicketDetail from './pages/TicketDetail';
 import CreateTicket from './pages/CreateTicket';
 import AdminDashboard from './pages/AdminDashboard';
+import ManagerDashboard from './pages/ManagerDashboard';
+import SuperAdminDashboard from './pages/SuperAdminDashboard';
 import Users from './pages/Users';
 import Navbar from './components/Navbar';
 import './App.css';
@@ -67,6 +69,22 @@ function App() {
               element={
                 <PrivateRoute allowedRoles={['admin']}>
                   <Users />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/manager"
+              element={
+                <PrivateRoute allowedRoles={['manager']}>
+                  <ManagerDashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/superadmin"
+              element={
+                <PrivateRoute allowedRoles={['superadmin']}>
+                  <SuperAdminDashboard />
                 </PrivateRoute>
               }
             />
